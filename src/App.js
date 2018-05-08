@@ -2,60 +2,35 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BookSearch from './BookSearch'
-import Book from './Book'
+import Bookshelf from './BookShelf'
 import { Link } from 'react-router-dom'
 
 import './App.css'
 
 class BooksApp extends Component {
   state = {
-    books: null,
-    currentlyReading: [],
-    wantToRead: [],
-    read: [],
+    books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
-        this.setState(() =>({
-          books: books,
-          currentlyReading: books.filter((b) => (
-            b.shelf === 'currentlyReading'
-          )),
-          wantToRead: books.filter((b) => (
-            b.shelf === 'wantToRead'
-          )),
-          read: books.filter((b) => (
-            b.shelf === 'read'
-          ))
-        }))
+        this.setState(() =>({ books }))
       })
   }
 
   handleChange = (book, shelf) => {
-    let books = this.state.books
-    let currentBook = books.findIndex( b => b.id === book.id)
-    books[currentBook].shelf = shelf
+    let newBooks = this.state.books
+    let index = newBooks.findIndex(b => b.id === book.id)
+    newBooks[index].shelf = shelf
 
     this.setState(() => ({
-      books,
-      currentlyReading: books.filter((b) => (
-        b.shelf === 'currentlyReading'
-      )),
-      wantToRead: books.filter((b) => (
-        b.shelf === 'wantToRead'
-      )),
-      read: books.filter((b) => (
-        b.shelf === 'read'
-      ))
+      books: newBooks
     }))
-
   }
 
   render() {
-    const { books, currentlyReading, wantToRead, read } = this.state
-    const current = [];
+    const { books } = this.state
 
     return (
       <div className="app">
@@ -66,51 +41,21 @@ class BooksApp extends Component {
             </div>
             <div className="list-books-content">
               <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {currentlyReading.map((book) => (
-                        <li key={book.id}>
-                          <Book
-                            book={book}
-                            changeShelf={this.handleChange}
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {wantToRead.map((book) => (
-                        <li key={book.id}>
-                          <Book
-                            book={book}
-                            changeShelf={this.handleChange}
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {read.map((book) => (
-                        <li key={book.id}>
-                          <Book
-                            book={book}
-                            changeShelf={this.handleChange}
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
+                <Bookshelf
+                  title="Currently Reading"
+                  books={books.filter((b) => b.shelf === 'currentlyReading')}
+                  handleChange={this.handleChange}
+                />
+                <Bookshelf
+                  title="Want To Read"
+                  books={books.filter( (b) => b.shelf === 'wantToRead' )}
+                  handleChange={this.handleChange}
+                />
+                <Bookshelf
+                  title="Read"
+                  books={books.filter((b) => b.shelf === 'read')}
+                  handleChange={this.handleChange}
+                />
               </div>
             </div>
             <div className="open-search">

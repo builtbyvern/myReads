@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Book from './Book'
 import PropTypes from 'prop-types'
 
@@ -7,12 +7,11 @@ const Bookshelf = (props) => (
     <h2 className="bookshelf-title">{props.title}</h2>
     <div className="bookshelf-books">
       <ol className="books-grid">
-        {props.shelf.map((book) => (
-          <li>
+        {props.books.map((book) => (
+          <li key={book.id}>
             <Book
               book={book}
-              key={book.id}
-              updateShelf={props.updateShelf}
+              handleChange={props.handleChange}
             />
           </li>
         ))}
@@ -20,5 +19,11 @@ const Bookshelf = (props) => (
     </div>
   </div>
 )
+
+Bookshelf.propTypes = {
+  books: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+}
 
 export default Bookshelf

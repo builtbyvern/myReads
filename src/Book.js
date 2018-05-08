@@ -10,7 +10,14 @@ class Book extends Component {
 
   render() {
     const { book } = this.state
-    const { changeShelf } = this.props
+    const options = [
+      {value: null, text: 'Move to...', disabled: true},
+      {value: 'currentlyReading', text: 'Currently Reading', disabled: false},
+      {value: 'wantToRead', text: 'Want To Read', disabled: false },
+      {value: 'read', text: 'Read', disabled: false},
+      {value: 'none', text: 'None', disabled: false}
+    ]
+
     return (
       <div className="book">
         <div className="book-top">
@@ -18,12 +25,13 @@ class Book extends Component {
             { width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }
           }></div>
           <div className="book-shelf-changer">
-            <select onChange={(e) => changeShelf(book, e.target.value) }>
-              <option value="none" disabled>Move to...</option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              <option value="none">None</option>
+            <select defaultValue={book.shelf} onChange={(event) => this.props.handleChange(book, event.target.value)}>
+              {options.map(opt =>
+                <option
+                  disabled={opt.disabled}
+                  key={opt.value}
+                  value={opt.value}>{opt.text}</option>
+              )}
             </select>
           </div>
         </div>
