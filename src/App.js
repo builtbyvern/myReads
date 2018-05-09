@@ -9,7 +9,8 @@ import './App.css'
 
 class BooksApp extends Component {
   state = {
-    books: []
+    books: [],
+    currentlyReading: [] // possibly to be an array of book ids. we shall see
   }
 
   componentDidMount() {
@@ -19,14 +20,26 @@ class BooksApp extends Component {
       })
   }
 
-  handleChange = (book, shelf) => {
-    let newBooks = this.state.books
-    let index = newBooks.findIndex(b => b.id === book.id)
-    newBooks[index].shelf = shelf
+    /*
+  export const update = (book, shelf) =>
+    fetch(`${api}/books/${book.id}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ shelf })
+    }).then(res => res.json())
+  */
 
-    this.setState(() => ({
-      books: newBooks
-    }))
+  handleChange = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      .then( (res) => {
+        BooksAPI.getAll()
+          .then((books) => {
+            this.setState({ books })
+          })
+      })
   }
 
   render() {
@@ -64,7 +77,9 @@ class BooksApp extends Component {
           </div>
         )} />
 
-        <Route path="/search" component={BookSearch} />
+        <Route path="/search" render={() => (
+          <BookSearch addBook={this.addBook} handleChange={this.handleChange} />
+        )}/>
       </div>
     )
   }

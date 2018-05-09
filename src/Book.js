@@ -8,6 +8,14 @@ class Book extends Component {
     shelf: this.props.book.shelf
   }
 
+  checkThumb = () => {
+    if (!this.props.book.imageLinks) {
+      return "#"
+    } else {
+      return this.props.book.imageLinks.thumbnail
+    }
+   }
+
   render() {
     const { book } = this.state
     const options = [
@@ -22,10 +30,10 @@ class Book extends Component {
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={
-            { width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }
+            { width: 128, height: 193, backgroundImage: 'url(' + this.checkThumb() + ')' }
           }></div>
           <div className="book-shelf-changer">
-            <select defaultValue={book.shelf} onChange={(event) => this.props.handleChange(book, event.target.value)}>
+            <select defaultValue={book.shelf ? book.shelf : 'none'} onChange={(event) => this.props.handleChange(book, event.target.value)}>
               {options.map(opt =>
                 <option
                   disabled={opt.disabled}
@@ -36,7 +44,7 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors[0]}</div>
+        <div className="book-authors"></div>
       </div>
     )
   }
