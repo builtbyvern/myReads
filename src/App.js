@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
-import BookSearch from './BookSearch'
-import Bookshelf from './BookShelf'
+import * as BooksAPI from './utils/BooksAPI'
+import Search from './components/Search'
+import Bookshelf from './components/BookShelf'
 import { Link } from 'react-router-dom'
 
 import './App.css'
@@ -10,31 +10,22 @@ import './App.css'
 class BooksApp extends Component {
   state = {
     books: [],
-    currentlyReading: [] // possibly to be an array of book ids. we shall see
+    currentlyReading: []
   }
 
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
-        this.setState(() =>({ books }))
+        this.setState(() =>({
+          books,
+          currentlyReading: books.filter( b => b.shelf === 'currentlyReading' )
+        }))
       })
   }
 
-    /*
-  export const update = (book, shelf) =>
-    fetch(`${api}/books/${book.id}`, {
-      method: 'PUT',
-      headers: {
-        ...headers,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ shelf })
-    }).then(res => res.json())
-  */
-
   handleChange = (book, shelf) => {
     BooksAPI.update(book, shelf)
-      .then( (res) => {
+      .then( () => {
         BooksAPI.getAll()
           .then((books) => {
             this.setState({ books })
@@ -78,7 +69,7 @@ class BooksApp extends Component {
         )} />
 
         <Route path="/search" render={() => (
-          <BookSearch addBook={this.addBook} handleChange={this.handleChange} />
+          <Search addBook={this.addBook} handleChange={this.handleChange} />
         )}/>
       </div>
     )
