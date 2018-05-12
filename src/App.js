@@ -3,22 +3,20 @@ import { Route } from 'react-router-dom'
 import * as BooksAPI from './utils/BooksAPI'
 import Search from './components/Search'
 import Bookshelf from './components/BookShelf'
-import { Link } from 'react-router-dom'
+import OpenSearch from './components/search/OpenSearch'
 
 import './App.css'
 
 class BooksApp extends Component {
   state = {
-    books: [],
-    currentlyReading: []
+    books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
         this.setState(() =>({
-          books,
-          currentlyReading: books.filter( b => b.shelf === 'currentlyReading' )
+          books
         }))
       })
   }
@@ -47,24 +45,22 @@ class BooksApp extends Component {
               <div>
                 <Bookshelf
                   title="Currently Reading"
-                  books={books.filter((b) => b.shelf === 'currentlyReading')}
+                  books={books.filter(b => b.shelf === 'currentlyReading')}
                   handleChange={this.handleChange}
                 />
                 <Bookshelf
                   title="Want To Read"
-                  books={books.filter( (b) => b.shelf === 'wantToRead' )}
+                  books={books.filter(b => b.shelf === 'wantToRead' )}
                   handleChange={this.handleChange}
                 />
                 <Bookshelf
                   title="Read"
-                  books={books.filter((b) => b.shelf === 'read')}
+                  books={books.filter(b => b.shelf === 'read')}
                   handleChange={this.handleChange}
                 />
               </div>
             </div>
-            <div className="open-search">
-              <Link to="/search">Add a book</Link>
-            </div>
+            <OpenSearch />
           </div>
         )} />
 

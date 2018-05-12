@@ -12,13 +12,17 @@ class Book extends Component {
     shelf: this.props.book.shelf
   }
 
-  checkThumb = () => {
-    if (!this.props.book.imageLinks) {
-      return "#"
-    } else {
-      return this.props.book.imageLinks.thumbnail
-    }
-   }
+  checkThumb = () => (
+    !this.props.book.imageLinks
+      ? "#"
+      : this.props.book.imageLinks.thumbnail
+  )
+
+  checkAuthors = () => (
+    !this.props.book.authors
+      ? ['']
+      : this.props.book.authors
+  )
 
   render() {
     const { book } = this.state
@@ -30,7 +34,7 @@ class Book extends Component {
           <BookshelfChanger handleChange={this.props.handleChange} book={book} />
         </div>
         <BookTitle title={book.title} />
-        <BookAuthors authors={book.authors} />
+        <BookAuthors authors={this.checkAuthors()} />
       </div>
     )
   }
