@@ -1,5 +1,5 @@
 import React from 'react'
-import Book from './Book'
+import Book from './book/Book'
 import PropTypes from 'prop-types'
 
 const Bookshelf = (props) => (
