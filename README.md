@@ -17,5 +17,4 @@ Clone the repo to your desired directory. Launch your terminal, navigate to the 
 
 Books will appear in the root url `/`. Click the add button at the bottom and you will be redirected to `/search` and 
 given the ability to search for new books to add to your library. Once you find a book you want, click the 
-book's dropdown and choose which shelf you would like it in. Navigating back home, the book will still be present.
-Even on refresh.
+book's dropdown and choose which shelf you would like it in. Navigating back home, the book will still be present even on refresh.
