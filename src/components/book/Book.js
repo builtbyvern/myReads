@@ -18,12 +18,6 @@ class Book extends Component {
       : this.props.book.imageLinks.thumbnail
   )
 
-  checkAuthors = () => (
-    !this.props.book.authors
-      ? ['']
-      : this.props.book.authors
-  )
-
   render() {
     const { book } = this.state
 
@@ -34,7 +28,9 @@ class Book extends Component {
           <BookshelfChanger handleChange={this.props.handleChange} book={book} />
         </div>
         <BookTitle title={book.title} />
-        <BookAuthors authors={this.checkAuthors()} />
+        {this.props.book.authors &&
+          <BookAuthors authors={this.props.book.authors} />
+        }
       </div>
     )
   }
