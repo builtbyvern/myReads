@@ -22,4 +22,4 @@ book's dropdown and choose which shelf you would like it in. Navigating back hom
 ### Thanks
 
 While almost all of the code here was written myself with most of the default React add-ons like routing and PropTypes, I did
-use the [isObject package](https://github.com/jonschlinkert/isobject) built by @jonschlinkert for some quick typechecking.
+use the [isobject package](https://github.com/jonschlinkert/isobject) built by @jonschlinkert for some quick typechecking.
