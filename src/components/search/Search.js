@@ -44,7 +44,7 @@ class Search extends Component {
 
   render() {
     const { query } = this.state
-    const { library, handleChange } = this.props
+    const { handleChange } = this.props
 
     return (
       <div className="search-books">
