@@ -18,6 +18,10 @@ class Book extends Component {
       : this.props.book.imageLinks.thumbnail
   )
 
+  componentDidMount() {
+    // console.log(this.state.book)
+  }
+
   render() {
     const { book } = this.state
 
